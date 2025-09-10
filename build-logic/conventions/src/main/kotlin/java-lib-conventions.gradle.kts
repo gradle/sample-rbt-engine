@@ -1,10 +1,6 @@
 plugins {
     `java-library`
-    id("rbt-plugin")
-}
-
-tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
-    languageVersion = JavaLanguageVersion.of(21)
+    `java-test-fixtures`
 }
 
 java {

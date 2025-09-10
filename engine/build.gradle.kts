@@ -1,8 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    `java-library`
-    `java-test-fixtures`
+    id("java-lib-conventions")
 }
 
 dependencies {
