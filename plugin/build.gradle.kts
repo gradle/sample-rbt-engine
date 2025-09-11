@@ -5,13 +5,14 @@ plugins {
 
 dependencies {
     implementation(project(":engine"))
+    implementation(libs.asm)
 }
 
 gradlePlugin {
     plugins {
         create("rbt-plugin") {
             id = "rbt-plugin"
-            implementationClass = "org.gradle.engine.ResourceBasedTestingPlugin"
+            implementationClass = "org.gradle.engine.rbt.plugin.ResourceBasedTestingPlugin"
         }
     }
 }

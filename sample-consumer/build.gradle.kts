@@ -1,5 +1,5 @@
 plugins {
-    `java-library`
+    id("java-lib-conventions")
     id("rbt-plugin")
 }
 
@@ -7,11 +7,6 @@ tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
     languageVersion = JavaLanguageVersion.of(21)
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+tasks.named<org.gradle.engine.rbt.plugin.task.ScanResourcesTask>("scanForTests") {
+    inputDir = project.layout.projectDirectory.dir("src/test/testDefinitions")
 }

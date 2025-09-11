@@ -9,9 +9,11 @@ dependencyResolutionManagement {
 }
 
 pluginManagement {
-    includeBuild("../../sample-rbt-engine")
+    includeBuild("../../sample-rbt-engine/build-logic")
 }
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
+
+includeBuild("../../sample-rbt-engine")

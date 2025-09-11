@@ -18,20 +18,11 @@ testing {
 
             dependencies {
                 implementation(libs.junit.platform.testkit)
-                implementation(testFixtures(project()))
             }
         }
     }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
+// These need to be kept in sync with the values in the Version Catalog
 version = "0.1.0"
 group = "org.gradle"
