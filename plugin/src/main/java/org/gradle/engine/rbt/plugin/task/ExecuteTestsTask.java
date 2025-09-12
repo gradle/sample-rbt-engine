@@ -1,19 +1,21 @@
 package org.gradle.engine.rbt.plugin.task;
 
 import org.gradle.api.file.ConfigurableFileCollection;
-import org.gradle.api.logging.Logger;
-import org.gradle.api.logging.Logging;
+import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.Property;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.*;
 import org.gradle.api.tasks.testing.Test;
 
 public abstract class ExecuteTestsTask extends Test {
-    public static final Logger LOGGER = Logging.getLogger(ScanResourcesTask.class);
+    /** Input directory containing resource files. */
+    @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
+    public abstract DirectoryProperty getInputDir();
 
     @Input
     public abstract Property<String> getJUnitPlatformVersion();
 
+    /** Dummy test classes generated from resource files. */
     @InputFiles
     public abstract ConfigurableFileCollection getConfigurableTestClassesDirs();
 
@@ -24,7 +26,7 @@ public abstract class ExecuteTestsTask extends Test {
      * @param key The parameter key.
      * @param value The parameter value.
      */
-    private void setTestEngineParam(String key, String value) {
-        jvmArgs("-DtestEngineInput." + key + "=" + value);
+    public void setTestEngineParam(String key, String value) {
+        jvmArgs("-D" + key + "=" + value);
     }
 }

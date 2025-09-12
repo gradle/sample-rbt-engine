@@ -6,8 +6,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public abstract class TestUtil {
-    private TestUtil() {
+public abstract class TestResourcesUtil {
+    private TestResourcesUtil() {
         throw new IllegalStateException("Can't instantiate utility class!");
     }
 
@@ -20,7 +20,7 @@ public abstract class TestUtil {
      * @return the content of the resource file as a String
      */
     public static String readResourceFile(String resourceFileRelativePath) {
-        var resource = TestUtil.class.getClassLoader().getResource(resourceFileRelativePath);
+        var resource = TestResourcesUtil.class.getClassLoader().getResource(resourceFileRelativePath);
         if (resource == null) {
             throw new IllegalArgumentException("Resource file '" + resourceFileRelativePath + "' not found.");
         }
@@ -41,7 +41,7 @@ public abstract class TestUtil {
      * @param destDir the destination directory (e.g., tempDir)
      */
     public static void copyResourceDir(String resourceDirName, File destDir) {
-        var resource = TestUtil.class.getClassLoader().getResource(resourceDirName);
+        var resource = TestResourcesUtil.class.getClassLoader().getResource(resourceDirName);
         if (resource == null) {
             throw new IllegalArgumentException("Resource directory '" + resourceDirName + "' not found.");
         }

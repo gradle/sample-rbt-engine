@@ -3,10 +3,6 @@ plugins {
     id("rbt-plugin")
 }
 
-tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
-    languageVersion = JavaLanguageVersion.of(21)
-}
-
 tasks.named<org.gradle.engine.rbt.plugin.task.ScanResourcesTask>("scanForTests") {
     inputDir = project.layout.projectDirectory.dir("src/test/testDefinitions")
 }

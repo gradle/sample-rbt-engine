@@ -13,6 +13,7 @@ import org.gradle.api.tasks.TaskContainer;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.engine.rbt.plugin.task.ExecuteTestsTask;
 import org.gradle.engine.rbt.plugin.task.ScanResourcesTask;
+import org.gradle.rbt.util.Inputs;
 import org.gradle.rbt.engine.ResourceBasedTestEngine;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -22,7 +23,6 @@ public abstract class ResourceBasedTestingPlugin implements Plugin<Project> {
     private static final String SCAN_TASK_NAME = "scanForTests";
     private static final String EXECUTE_TASK_NAME = "executeTests";
     private static final String RBT_TASKS_GROUP = "Resource Based Testing";
-    private static final String DEFAULT_TEST_DEFINITIONS_DIR_PATH = "src/test/testDefinitions";
     private static final String DEFAULT_ENGINE_CLASS_FILE_PATH = "generated/tests";
     private static final String DEFAULT_JUNIT_PLATFORM_VERSION = "1.13.4";
 
@@ -37,7 +37,6 @@ public abstract class ResourceBasedTestingPlugin implements Plugin<Project> {
             task.setGroup(RBT_TASKS_GROUP);
             task.setDescription("Scans resources for tests and creates a dummy class file to use as an input for the test engine (to support Gradle's reliance on class-based testing)");
 
-            task.getInputDir().convention(project.getLayout().getProjectDirectory().dir(DEFAULT_TEST_DEFINITIONS_DIR_PATH));
             task.getResultsDir().convention(project.getLayout().getBuildDirectory().dir(DEFAULT_ENGINE_CLASS_FILE_PATH));
         });
 
@@ -60,7 +59,17 @@ public abstract class ResourceBasedTestingPlugin implements Plugin<Project> {
             });
             task.getFailOnNoDiscoveredTests().set(false);
             task.setClasspath(executeTestsClasspath.get());
-            task.doFirst(t -> LOGGER.lifecycle("Executing (dummy) tests in: " + ((ExecuteTestsTask) t).getConfigurableTestClassesDirs().getAsPath()));
+            task.getInputDir().convention(scanTask.flatMap(ScanResourcesTask::getInputDir));
+
+            task.doFirst(t -> {
+                ExecuteTestsTask executeTestsTask = (ExecuteTestsTask) t;
+                String dummyTestClassesClasspath = ((ExecuteTestsTask) t).getConfigurableTestClassesDirs().getAsPath();
+                LOGGER.lifecycle("Using (dummy) test: " + ResourceBasedTestEngine.ENGINE_DUMMY_CLASS_NAME + ".class using classpath: " + dummyTestClassesClasspath);
+
+                String testResourcesRootDir = executeTestsTask.getInputDir().getAsFile().get().getAbsolutePath();
+                executeTestsTask.setTestEngineParam(Inputs.TEST_RESOURCES_ROOT_DIR_PROP, testResourcesRootDir);
+                LOGGER.lifecycle("Using test resources root: " + testResourcesRootDir);
+            });
         });
 
         Provider<Dependency> platformDependencyProvider = executeTask.map(t -> project.getDependencies().create("org.junit.platform:junit-platform-launcher:" + t.getJUnitPlatformVersion().get()));

@@ -19,6 +19,19 @@ testing {
             dependencies {
                 implementation(libs.junit.platform.testkit)
             }
+
+            targets {
+                all {
+                    testTask.configure {
+                        options {
+                            // When launching the tests via Gradle, the engine will be on the classpath as
+                            // we don't want to use it, so we need to exclude it explicitly.  This
+                            // value needs to match ResourceBasedTestEngine.ENGINE_ID
+                            (this as JUnitPlatformOptions).excludeEngines("rbt-engine")
+                        }
+                    }
+                }
+            }
         }
     }
 }
