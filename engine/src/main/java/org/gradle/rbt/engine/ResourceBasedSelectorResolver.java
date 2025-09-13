@@ -61,7 +61,7 @@ public class ResourceBasedSelectorResolver implements SelectorResolver {
             Set<Match> tests = directoryScanner.getTestFileParser().parseTestNames(file).stream()
                     .map(testName -> context.addToParent(parent -> Optional.of(new ResourceBasedTestDescriptor(parent.getUniqueId(), file, testName))))
                     .map(Optional::orElseThrow)
-                    .map(Match::partial)
+                    .map(Match::exact)
                     .collect(Collectors.toSet());
             return Resolution.matches(tests);
         } else {
