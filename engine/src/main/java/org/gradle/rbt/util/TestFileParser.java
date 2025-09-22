@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class TestFileParser {
@@ -42,7 +43,7 @@ public final class TestFileParser {
                 names.add(name);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return Collections.emptyList();
         }
 
         return names;
