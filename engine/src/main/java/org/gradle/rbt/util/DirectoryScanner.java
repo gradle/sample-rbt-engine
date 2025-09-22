@@ -25,7 +25,7 @@ public final class DirectoryScanner {
                         filesFound.add(file);
                     }
                     filesFound.addAll(scanDirectory(file));
-                } else if (testFileParser.isValidTestSpecificationFile(file)) {
+                } else if (testFileParser.isValidTestDefinitionFile(file)) {
                     filesFound.add(file);
                 }
             }

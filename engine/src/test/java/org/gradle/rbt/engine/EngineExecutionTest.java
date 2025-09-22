@@ -5,13 +5,14 @@ import org.gradle.rbt.util.Inputs;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.testkit.engine.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
 import static org.gradle.engine.test.TestDescriptorAssertions.assertExecutedTests;
-import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
+import static org.junit.platform.engine.discovery.DiscoverySelectors.*;
 
 public final class EngineExecutionTest extends AbstractTestDefinitionsTest{
     @Test
@@ -26,10 +27,8 @@ public final class EngineExecutionTest extends AbstractTestDefinitionsTest{
 
     @Test
     public void executionSucceedsGivenDirectorySelector() {
-        System.setProperty(Inputs.TEST_RESOURCES_ROOT_DIR_PROP, testDefinitionsDir.getAbsolutePath());
-
         EngineExecutionResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectClass(ResourceBasedTestEngine.ENGINE_DUMMY_CLASS_NAME))
+                .selectors(selectDirectory(testDefinitionsDir.getAbsolutePath()))
                 .execute();
 
         assertExecutedTests(
@@ -37,6 +36,18 @@ public final class EngineExecutionTest extends AbstractTestDefinitionsTest{
             Map.ofEntries(
                 testDescriptor("tests.xml", "foo", "bar"),
                 testDescriptor("sub/more-tests.xml", "baz")));
+    }
+
+    @Test
+    public void executionSucceedsGivenFileSelector() {
+        EngineExecutionResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
+                .selectors(selectFile(new File(testDefinitionsDir, "tests.xml").getAbsolutePath()))
+                .execute();
+
+        assertExecutedTests(
+                results,
+                Map.ofEntries(
+                        testDescriptor("tests.xml", "foo", "bar")));
     }
 
     @Test
