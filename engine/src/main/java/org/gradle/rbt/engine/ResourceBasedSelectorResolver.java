@@ -3,7 +3,6 @@ package org.gradle.rbt.engine;
 import org.gradle.rbt.descriptor.ResourceBasedTestDescriptor;
 import org.gradle.rbt.util.DirectoryScanner;
 import org.gradle.rbt.util.Inputs;
-import org.gradle.rbt.util.TestFileParser;
 import org.junit.platform.commons.logging.Logger;
 import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.platform.engine.DiscoverySelector;
@@ -55,7 +54,7 @@ public class ResourceBasedSelectorResolver implements SelectorResolver {
     @Override
     public Resolution resolve(FileSelector selector, Context context) {
         File file = selector.getFile();
-        if (directoryScanner.getTestFileParser().isValidTestSpecificationFile(file)) {
+        if (directoryScanner.getTestFileParser().isValidTestDefinitionFile(file)) {
             LOGGER.info(() -> "Test specification file: " + file.getAbsolutePath());
 
             Set<Match> tests = directoryScanner.getTestFileParser().parseTestNames(file).stream()
