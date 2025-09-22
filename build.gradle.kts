@@ -1,3 +1,3 @@
 tasks.named<UpdateDaemonJvm>("updateDaemonJvm") {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(17)
 }
