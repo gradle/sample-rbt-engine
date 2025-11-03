@@ -1,10 +1,12 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("java-library")
     id("rbt-plugin")
 }
 
 testing.suites {
-    val test by getting(JvmTestSuite::class) {
+    named<JvmTestSuite>("test") {
         useJUnitJupiter()
 
         dependencies {
@@ -17,8 +19,9 @@ testing.suites {
                 testDefinitionDirs.setFrom(project.layout.projectDirectory.file("src/test/testDefinitions"))
 
                 options {
-                    val options = this as JUnitPlatformOptions
+                    this as JUnitPlatformOptions
                     includeEngines("rbt-engine")
+                    includeEngines("junit-jupiter")
                 }
             }
         }
