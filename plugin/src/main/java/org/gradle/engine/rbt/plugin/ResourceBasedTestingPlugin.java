@@ -33,12 +33,6 @@ public abstract class ResourceBasedTestingPlugin implements Plugin<Project> {
 
         ResourceBasedTestingExtension extension = extensions.create(RBT_EXTENSION_NAME, ResourceBasedTestingExtension.class);
 
-        TaskProvider<ScanResourcesTask> scanTask = tasks.register(SCAN_TASK_NAME, ScanResourcesTask.class, task -> {
-            task.setGroup(RBT_TASKS_GROUP);
-            task.setDescription("Scans resources for tests and creates a dummy class file to use as an input for the test engine (to support Gradle's reliance on class-based testing)");
-
-            task.getResultsDir().convention(project.getLayout().getBuildDirectory().dir(DEFAULT_ENGINE_CLASS_FILE_PATH));
-        });
 
         Provider<DependencyScopeConfiguration> executeTestsImplementation = project.getConfigurations().dependencyScope(EXECUTE_TASK_NAME + "Implementation");
         Provider<ResolvableConfiguration> executeTestsClasspath = project.getConfigurations().resolvable(EXECUTE_TASK_NAME + "Classpath", c -> {
@@ -51,7 +45,6 @@ public abstract class ResourceBasedTestingPlugin implements Plugin<Project> {
             task.setDescription("Executes tests using the resource-based testing engine");
 
             task.getJUnitPlatformVersion().convention(DEFAULT_JUNIT_PLATFORM_VERSION);
-            task.getConfigurableTestClassesDirs().from(scanTask.flatMap(ScanResourcesTask::getResultsDir));
             task.setTestClassesDirs(task.getConfigurableTestClassesDirs());
             task.useJUnitPlatform(options -> {
                 options.includeEngines(ResourceBasedTestEngine.ENGINE_ID);
@@ -59,7 +52,6 @@ public abstract class ResourceBasedTestingPlugin implements Plugin<Project> {
             });
             task.getFailOnNoDiscoveredTests().set(false);
             task.setClasspath(executeTestsClasspath.get());
-            task.getInputDir().convention(scanTask.flatMap(ScanResourcesTask::getInputDir));
 
             task.doFirst(t -> {
                 ExecuteTestsTask executeTestsTask = (ExecuteTestsTask) t;
