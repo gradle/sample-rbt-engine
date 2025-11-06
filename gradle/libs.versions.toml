@@ -1,12 +1,8 @@
 [versions]
-asm = "9.8"
 junit-jupiter = "5.13.4"
 junit-platform = "1.13.4"
-sample-rbt-engine = "0.1.0"
 
 [libraries]
-asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
 junit-platform-testkit = { module = "org.junit.platform:junit-platform-testkit", version.ref = "junit-platform" }
-sample-rbt-engine = { module = "org.gradle:engine", version.ref = "sample-rbt-engine" }

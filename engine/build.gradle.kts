@@ -1,23 +1,36 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("java-lib-conventions")
+    `java-library`
+    `java-test-fixtures`
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 dependencies {
     api(libs.junit.jupiter.engine)
-    api(libs.junit.platform.launcher)
+
+    implementation("org.slf4j:jul-to-slf4j:2.0.9")
+    runtimeOnly("ch.qos.logback:logback-classic:1.5.20")
 
     testFixturesApi(libs.junit.platform.testkit)
 }
 
 testing {
     suites {
-        named("test",JvmTestSuite::class) {
+        named("test", JvmTestSuite::class) {
             useJUnitJupiter(libs.versions.junit.jupiter.get())
 
             dependencies {
                 implementation(libs.junit.platform.testkit)
+
             }
 
             targets {
@@ -35,7 +48,3 @@ testing {
         }
     }
 }
-
-// These need to be kept in sync with the values in the Version Catalog
-version = "0.1.0"
-group = "org.gradle"
