@@ -1,4 +1,4 @@
-# Resource-Based Testing in JUnit 5
+# Non-Class-Based Testing in Gradle using JUnit Platform
 
 ## Milestone 4 Demo
 
