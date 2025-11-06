@@ -17,3 +17,6 @@ Gradle Test Executor 48 STANDARD_OUT
     10:53:14.129 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/sub/more-tests.xml
     10:53:14.130 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/sub2/subsub/even-more-tests.xml
 ```
+
+The tests are defined in XML files located in `src/test/definitions` of the demo project.
+They are the only files needed to define these tests, and are the only files present in that project.
