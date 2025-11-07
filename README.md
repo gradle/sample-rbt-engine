@@ -1,22 +1,54 @@
-# Non-Class-Based Testing in Gradle using JUnit Platform
+# JUnit Platform ReportEntry data capture in Gradle
 
-## Milestone 4 Demo
+## Milestone 1 Demo
 
-This project demonstrates a [JUnit Test Engine](https://docs.junit.org/current/user-guide/#test-engines) that uses resource files to define tests that can be run with JUnit Platform.
-The resource files are executed directly by Gradle, there is no need for any test classes to exist.
+This project demonstrates capturing `ReportEntry` data published by JUnit Platform during test execution in Gradle.
 
-This project contains a demonstration consumer build in `/demo-m4` and a resource-based `TestEngine` in `/engine`.
+This project contains a demonstration project in `/demo-m1` which is a JVM library project created using Gradle `init`.
 
-Run the demo project using `./gradlew test --rerun` and you'll see the resource-based tests are discovered, as the engine logs them to the console like this:
+Run the demo project using `./gradlew test` and the tests should pass.
+Open the `/demo-m1/build/reports/tests/test/index.html` test report, you should be able to navigate the test reports to see `ReportEntry` data published by the tests appear as metadata.
 
-```text
-Gradle Test Executor 48 STANDARD_OUT
-    10:53:14.117 INFO  o.g.r.engine.ResourceBasedTestEngine - Discovering tests with engine: [engine:rbt-engine] using selectors:
-        DirectorySelector [path = '/Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions']
-    10:53:14.125 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/tests.xml
-    10:53:14.129 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/sub/more-tests.xml
-    10:53:14.130 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/sub2/subsub/even-more-tests.xml
+### Details
+
+The test class is located at `src/test/java/org/example/LibraryTest.java`.
+
+Data published during test construction:
+
+```java
+LibraryTest(TestReporter testReporter) {
+    testReporter.publishEntry("constructor", "value1");
+}
 ```
 
-The tests are defined in XML files located in `src/test/definitions` of the demo project.
-They are the only files needed to define these tests, and are the only files present in that project.
+is displayed at the class level in the metadata tab in the test report here:
+`build/reports/tests/test/org.example.LibraryTest/index.html`.
+
+Data published during setup/cleanup: 
+
+```java
+
+@BeforeEach
+public void beforeEach(TestReporter testReporter) {
+    testReporter.publishEntry("beforeEach", "value2");
+}
+
+@AfterEach
+public void afterEach(TestReporter testReporter) {
+    testReporter.publishEntry("afterEach", "value4");
+}
+```
+
+and during test execution:
+
+```java
+@Test
+void someLibraryMethodReturnsTrue(TestReporter testReporter) {
+    testReporter.publishEntry("test", "value3");
+
+    Library classUnderTest = new Library();
+    assertTrue(classUnderTest.someLibraryMethod(), "someLibraryMethod should return 'true'");
+}
+```
+
+is displayed at the method level in the metadata tab in the test report here: `build/reports/tests/test/org.example.LibraryTest/someLibraryMethodReturnsTrue(TestReporter)/index.html`.
