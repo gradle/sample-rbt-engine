@@ -24,6 +24,8 @@ LibraryTest(TestReporter testReporter) {
 is displayed at the class level in the metadata tab in the test report here:
 `build/reports/tests/test/org.example.LibraryTest/index.html`.
 
+<img width="652" height="395" alt="image" src="https://github.com/user-attachments/assets/ca234200-8e70-425d-b55b-e9bfea734066" />
+
 Data published during setup/cleanup: 
 
 ```java
@@ -52,3 +54,5 @@ void someLibraryMethodReturnsTrue(TestReporter testReporter) {
 ```
 
 is displayed at the method level in the metadata tab in the test report here: `build/reports/tests/test/org.example.LibraryTest/someLibraryMethodReturnsTrue(TestReporter)/index.html`.
+
+<img width="704" height="468" alt="image" src="https://github.com/user-attachments/assets/234533cf-41fa-4dd7-aa09-efcd44250452" />
