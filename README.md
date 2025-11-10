@@ -22,7 +22,7 @@ LibraryTest(TestReporter testReporter) {
 ```
 
 is displayed at the class level in the metadata tab in the test report here:
-`build/reports/tests/test/org.example.LibraryTest/index.html`.
+`build/reports/tests/test/org.example.ExampleTest/index.html`.
 
 <img width="652" height="395" alt="image" src="https://github.com/user-attachments/assets/ca234200-8e70-425d-b55b-e9bfea734066" />
 
@@ -53,6 +53,36 @@ void someLibraryMethodReturnsTrue(TestReporter testReporter) {
 }
 ```
 
-is displayed at the method level in the metadata tab in the test report here: `build/reports/tests/test/org.example.LibraryTest/someLibraryMethodReturnsTrue(TestReporter)/index.html`.
+is displayed at the method level in the metadata tab in the test report here: `build/reports/tests/test/org.example.ExampleTest/someLibraryMethodReturnsTrue(TestReporter)/index.html`.
 
 <img width="704" height="468" alt="image" src="https://github.com/user-attachments/assets/234533cf-41fa-4dd7-aa09-efcd44250452" />
+
+## Milestone 1 Tooling API Demo
+
+This project demonstrates capturing `ReportEntry` data published by JUnit Platform during test execution in Gradle when running via the Tooling API.
+
+This project contains a demonstration project in `/demo-m1-tapi` which is a JVM application project that runs the `/demo-m1` build using the Tooling API, and listens for `TestMetadataEvent`s while doing so.
+
+Run the demo project using `./gradlew :demon-m1-tapi:run` and the build should succeed.
+You will see the `ReportEntry` data published by the test printed to the console using metadata events:
+
+```text
+> Task :demo-m1-tapi:run
+Parallel Configuration Cache is an incubating feature.
+Reusing configuration cache.
+> Task :demo-m1:processTestResources NO-SOURCE
+> Task :demo-m1:processResources NO-SOURCE
+> Task :demo-m1:compileJava FROM-CACHE
+> Task :demo-m1:classes UP-TO-DATE
+> Task :demo-m1:compileTestJava FROM-CACHE
+> Task :demo-m1:testClasses UP-TO-DATE
+Received test metadata event: metadata
+  constructor = value1
+Received test metadata event: metadata
+  beforeEach = value2
+Received test metadata event: metadata
+  test = value3
+Received test metadata event: metadata
+  afterEach = value4
+BUILD SUCCESSFUL in 1s
+```
