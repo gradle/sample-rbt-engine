@@ -1,0 +1,47 @@
+= Non-Class-Based Testing in Gradle using JUnit Platform
+
+== Milestone 4 Demo
+
+=== Main Demo `demo-m4`
+
+This project demonstrates a https://docs.junit.org/current/user-guide/#test-engines[JUnit Test Engine] that uses resource files to define tests that can be run with JUnit Platform.
+The resource files are executed directly by Gradle, there is no need for any test classes to exist.
+
+This project contains a demonstration consumer build in `/demo-m4` and a resource-based `TestEngine` in `/engine`.
+
+Run the demo project using `./gradlew :demo-m4:test --rerun` and you'll see the resource-based tests are discovered, as the engine logs them to the console like this:
+
+[source,text]
+----
+Gradle Test Executor 48 STANDARD_OUT
+    10:53:14.117 INFO  o.g.r.engine.ResourceBasedTestEngine - Discovering tests with engine: [engine:rbt-engine] using selectors:
+        DirectorySelector [path = '/Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions']
+    10:53:14.125 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/tests.xml
+    10:53:14.129 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/sub/more-tests.xml
+    10:53:14.130 INFO  o.g.r.engine.ResourceBasedTestEngine - Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m4/src/test/definitions/sub2/subsub/even-more-tests.xml
+----
+
+The tests are defined in XML files located in `src/test/definitions` of the demo project.
+They are the only files needed to define these tests, and are the only files present in that project.
+
+=== Listeners Demo `demo-m4-listeners`
+
+This project is similar to the main demo, and used the same engine, but does not propagate the TestEngines's output and instead uses a custom TestListener to demonstrate how tests can be listened for in Gradle builds.
+
+Run the demo project using `./gradlew :demo-m4-listeners:test --rerun` and you'll see the resource-based tests are discovered, as the engine logs them to the console like this:
+
+```text
+> Task :demo-m4-listeners:test
+START [Gradle Test Run :demo-m4-listeners:test] [Gradle Test Run :demo-m4-listeners:test.name]
+START [Gradle Test Executor 2] [Gradle Test Executor 2.name]
+START [Test tests.xml : foo(UnknownClass)] [Test tests.xml : foo(UnknownClass).name]
+FINISH [Test tests.xml : foo(UnknownClass)] [Test tests.xml : foo(UnknownClass).name] [SUCCESS.resultType] [SUCCESS.testCount] [SUCCESS.exception]
+START [Test tests.xml : bar(UnknownClass)] [Test tests.xml : bar(UnknownClass).name]
+FINISH [Test tests.xml : bar(UnknownClass)] [Test tests.xml : bar(UnknownClass).name] [SUCCESS.resultType] [SUCCESS.testCount] [SUCCESS.exception]
+START [Test more-tests.xml : baz(UnknownClass)] [Test more-tests.xml : baz(UnknownClass).name]
+FINISH [Test more-tests.xml : baz(UnknownClass)] [Test more-tests.xml : baz(UnknownClass).name] [SUCCESS.resultType] [SUCCESS.testCount] [SUCCESS.exception]
+START [Test even-more-tests.xml : other(UnknownClass)] [Test even-more-tests.xml : other(UnknownClass).name]
+FINISH [Test even-more-tests.xml : other(UnknownClass)] [Test even-more-tests.xml : other(UnknownClass).name] [SUCCESS.resultType] [SUCCESS.testCount] [SUCCESS.exception]
+FINISH [Gradle Test Executor 2] [Gradle Test Executor 2.name] [SUCCESS.resultType] [SUCCESS.testCount]
+FINISH [Gradle Test Run :demo-m4-listeners:test] [Gradle Test Run :demo-m4-listeners:test.name] [SUCCESS.resultType] [SUCCESS.testCount]
+```
