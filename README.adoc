@@ -26,7 +26,7 @@ They are the only files needed to define these tests, and are the only files pre
 
 === Listeners Demo `demo-m4-listeners`
 
-This project is similar to the main demo, and used the same engine, but does not propagate the TestEngines's output and instead uses a custom TestListener to demonstrate how tests can be listened for in Gradle builds.
+This project is similar to the main demo, and uses the same engine, but does not propagate the TestEngines's output and instead uses a custom TestListener to demonstrate how tests can be listened for in Gradle builds.
 
 Run the demo project using `./gradlew :demo-m4-listeners:test --rerun` and you'll see the resource-based tests are discovered, as the engine logs them to the console like this:
 
@@ -44,4 +44,21 @@ START [Test even-more-tests.xml : other(UnknownClass)] [Test even-more-tests.xml
 FINISH [Test even-more-tests.xml : other(UnknownClass)] [Test even-more-tests.xml : other(UnknownClass).name] [SUCCESS.resultType] [SUCCESS.testCount] [SUCCESS.exception]
 FINISH [Gradle Test Executor 2] [Gradle Test Executor 2.name] [SUCCESS.resultType] [SUCCESS.testCount]
 FINISH [Gradle Test Run :demo-m4-listeners:test] [Gradle Test Run :demo-m4-listeners:test.name] [SUCCESS.resultType] [SUCCESS.testCount]
+```
+
+
+=== No Tests Discovered Demo `demo-m4-no-tests`
+
+This project is similar to the main demo, and uses the same engine, but does not supply any valid test definition files for that engine.
+
+Run the demo project using `./gradlew :demo-m4-no-tests:test --rerun` and you'll see the task fail with a message indicating no tests were found:
+
+```text
+> Task :demo-m4-no-tests:test FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':demo-m4-no-tests:test'.
+> There are test sources present and no filters are applied, but the test task did not discover any tests to execute. This is likely due to a misconfiguration. Please check your test configuration. If this is not a misconfiguration, this error can be disabled by setting the 'failOnNoDiscoveredTests' property to false.
 ```

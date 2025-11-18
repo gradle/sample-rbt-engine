@@ -12,6 +12,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include("demo-m4", "demo-m4-listeners", "engine")
+include("demo-m4", "demo-m4-listeners", "demo-m4-no-tests", "engine")
 
 rootProject.name = "sample-rbt-engine"
