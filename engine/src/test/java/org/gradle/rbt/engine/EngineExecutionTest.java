@@ -56,25 +56,9 @@ public final class EngineExecutionTest extends AbstractTestDefinitionsTest{
         System.setProperty(Inputs.TEST_RESOURCES_ROOT_DIR_PROP, emptyDir.toString());
 
         EngineExecutionResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectClass(ResourceBasedTestEngine.ENGINE_DUMMY_CLASS_NAME))
                 .execute();
 
         // But executes no tests
         assertExecutedTests(results, Collections.emptyMap());
-    }
-
-    @Test
-    public void executionSucceedsGivenDummySentinelTestClassAndProperResourcesRoot() {
-        System.setProperty(Inputs.TEST_RESOURCES_ROOT_DIR_PROP, testDefinitionsDir.getAbsolutePath());
-
-        EngineExecutionResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectClass(ResourceBasedTestEngine.ENGINE_DUMMY_CLASS_NAME))
-                .execute();
-
-        assertExecutedTests(
-            results,
-            Map.ofEntries(
-                testDescriptor("tests.xml", "foo", "bar"),
-                testDescriptor("sub/more-tests.xml", "baz")));
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tests>
+    <test name="skippedTest" />
+    <test name="publishMetadataTest" />
+    <test name="publishFileTest" />
+    <test name="passingTest" />
+</tests>
