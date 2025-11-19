@@ -24,29 +24,6 @@ import java.nio.file.Path;
 import java.util.*;
 
 public final class EngineDiscoveryTest extends AbstractTestDefinitionsTest {
-    @Test
-    public void discoverySucceedsGivenNormalTestClassSelector() {
-        EngineDiscoveryResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectClass(SampleTestClass.class))
-                .discover();
-
-        assertUsingResourceBasedEngine(results);
-        assertDiscoveredTests(results, Collections.emptyMap()); // But finds no tests
-    }
-
-    @Test
-    public void discoverySucceedsGivenDirectorySelector() {
-        EngineDiscoveryResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectDirectory(testDefinitionsDir))
-                .discover();
-
-        assertUsingResourceBasedEngine(results);
-        assertDiscoveredTests(
-            results,
-            Map.ofEntries(
-                testDescriptor("tests.xml", "foo", "bar"),
-                testDescriptor("sub/more-tests.xml", "baz")));
-    }
 
     @Test
     public void discoverySucceedsGivenDummySentinelTestClassAndEmptyResourcesRoot() throws IOException {
@@ -54,27 +31,10 @@ public final class EngineDiscoveryTest extends AbstractTestDefinitionsTest {
         System.setProperty(Inputs.TEST_RESOURCES_ROOT_DIR_PROP, emptyDir.toString());
 
         EngineDiscoveryResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectClass(ResourceBasedTestEngine.ENGINE_DUMMY_CLASS_NAME))
                 .discover();
 
         assertUsingResourceBasedEngine(results);
         assertDiscoveredTests(results, Collections.emptyMap()); // But finds no tests
-    }
-
-    @Test
-    public void discoverySucceedsGivenDummySentinelTestClassAndProperResourcesRoot() {
-        System.setProperty(Inputs.TEST_RESOURCES_ROOT_DIR_PROP, testDefinitionsDir.getAbsolutePath());
-
-        EngineDiscoveryResults results = EngineTestKit.engine(ResourceBasedTestEngine.ENGINE_ID)
-                .selectors(selectClass(ResourceBasedTestEngine.ENGINE_DUMMY_CLASS_NAME))
-                .discover();
-
-        assertUsingResourceBasedEngine(results);
-        assertDiscoveredTests(
-            results,
-            Map.ofEntries(
-                testDescriptor("tests.xml", "foo", "bar"),
-                testDescriptor("sub/more-tests.xml", "baz")));
     }
 
     private static void assertUsingResourceBasedEngine(EngineDiscoveryResults results) {

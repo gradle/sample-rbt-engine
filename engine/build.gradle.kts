@@ -1,7 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("java-lib-conventions")
+    `java-library`
+    `java-test-fixtures`
 }
 
 dependencies {
@@ -9,6 +10,15 @@ dependencies {
     api(libs.junit.platform.launcher)
 
     testFixturesApi(libs.junit.platform.testkit)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 testing {
