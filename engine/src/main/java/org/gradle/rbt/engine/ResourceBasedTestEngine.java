@@ -6,6 +6,7 @@ import org.junit.platform.commons.logging.LoggerFactory;
 import org.junit.platform.engine.*;
 import org.junit.platform.engine.support.descriptor.EngineDescriptor;
 import org.junit.platform.engine.support.discovery.EngineDiscoveryRequestResolver;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.util.stream.Collectors;
 
@@ -14,9 +15,12 @@ public final class ResourceBasedTestEngine implements TestEngine {
 
     public static final String ENGINE_ID = "rbt-engine";
     public static final String ENGINE_NAME = "Resource Based Test Engine";
-    public static final String ENGINE_COORDINATES = "org.gradle:engine:0.1.0"; // These need to be kept in sync with the group + name in the build.gradle file
 
-    public static final String ENGINE_DUMMY_CLASS_NAME = "EngineEntryPoint";
+    // installs the JUL -> SLF4J bridge so JUL logs go through SLF4J/logback (which you configured to use System.out)
+    static {
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+        SLF4JBridgeHandler.install();
+    }
 
     @Override
     public String getId() {
@@ -28,7 +32,7 @@ public final class ResourceBasedTestEngine implements TestEngine {
         LOGGER.info(() -> {
             String selectorsMsg = discoveryRequest.getSelectorsByType(DiscoverySelector.class).stream()
                 .map(Object::toString)
-                .collect(Collectors.joining("\n", "\t", ""));
+                .collect(Collectors.joining("\n\t", "\t", ""));
             return "Discovering tests with engine: " + uniqueId + " using selectors:\n" + selectorsMsg;
         });
 
