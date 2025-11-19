@@ -32,3 +32,10 @@ The tests are defined in XML files located in `src/test/definitions` of the demo
 They are the only files needed to define these tests, and are the only files present in that project.
 
 After running the tests, you can find the test reports in `demo-m5-m6/build/reports/tests/test/index.html`.
+
+The `index.html` file looks like this:
+<img width="1111" height="676" alt="image" src="https://github.com/user-attachments/assets/cdf0b4ef-4ac6-41a7-af83-e37f3a8297b9" />
+
+If you navigate to individual tests, you can find the output (from the engine) captured per test:
+<img width="1188" height="390" alt="image" src="https://github.com/user-attachments/assets/98dc03ee-b438-4140-aaa1-b65021663c13" />
+
