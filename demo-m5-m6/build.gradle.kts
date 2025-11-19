@@ -25,8 +25,6 @@ testing {
             targets.all {
                 testTask.configure {
                     testDefinitionDirs.from("src/test/definitions")
-
-                    testLogging.showStandardStreams = true
                 }
             }
         }
