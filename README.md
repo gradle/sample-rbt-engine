@@ -33,13 +33,15 @@ They are the only files needed to define these tests, and are the only files pre
 
 #### Reporting
 
-After running the tests, you can find the test reports in `demo-m5-m6/build/reports/tests/test/index.html`.
+After running the tests, you can find the HTML test reports in `demo-m5-m6/build/reports/tests/test/index.html` and the XML test reports in `demo-m5-m6/build/test-results/TEST-Gradle-Test-Run--demo-m5-m6-test.xml`.
 
 The `index.html` file looks like this:
-<img width="1111" height="676" alt="image" src="https://github.com/user-attachments/assets/cdf0b4ef-4ac6-41a7-af83-e37f3a8297b9" />
+<img width="1083" height="769" alt="image" src="https://github.com/user-attachments/assets/c1aa204b-6e9b-41f9-ae12-9d5a396f0471" />
 
 If you navigate to individual tests, you can find the output (from the engine) captured per test:
 <img width="1291" height="378" alt="image" src="https://github.com/user-attachments/assets/7926f02e-a828-47d6-8273-9da07c45d0f0" />
+
+The simple test engine here discovers one `TestDescriptor` for each `<test>` element in each XML file and prefixes the file name to it.  A most sophisticated engine could also define a nested hierarchy of tests by directory and file if desired.
 
 #### Parallelism
 
@@ -51,3 +53,34 @@ This is the same parallelism as is done for class files in class-based testing.
 During test execution the engine will query a [Gradle system property](https://docs.gradle.org/current/userguide/java_testing.html#sec:test_execution) to retrieve the index of the TestWorker that ran the test.
 This is then printed, and visible in the per-test output in the generated test report.
 If you examine the output of tests in different directories (for example, `bar` and `baz`) you will see different worker indices.
+
+### Failing and Skipped Tests Demo `demo-m5-m6-failing`
+
+This project is similar to the main demo, and uses the same engine, but uses some hard-coded test names that the engine will fail and skip in order to demonstrate failing and skipped tests.
+
+Run the demo project using `./gradlew :demo-m5-m6-failing:test --rerun` and you'll see the task fail with a link to the generated test report:
+
+```text
+> Task :demo-m5-m6-failing:test FAILED
+Test definitions directory does not exist: /Users/ttresansky/Projects/sample-rbt-engine/demo-m5-m6-failing/src/test/more-definitions
+
+UnknownClass.failing-tests.xml : fails-on-purpose FAILED
+    java.lang.RuntimeException at ResourceBasedTestEngine.java:65
+
+4 tests completed, 1 failed, 1 skipped
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':demo-m5-m6-failing:test'.
+> There were failing tests. See the report at: file:///Users/ttresansky/Projects/sample-rbt-engine/demo-m5-m6-failing/build/reports/tests/test/index.html
+```
+
+The test report will show the failed and skipped tests like this:
+<img width="1077" height="642" alt="image" src="https://github.com/user-attachments/assets/a3caf84d-cd00-41c8-a767-1c473611fdb3" />
+
+You can view tests:
+<img width="1101" height="699" alt="image" src="https://github.com/user-attachments/assets/61800479-d06a-4bba-b333-3c1662857225" />
+
+And navigate to the failing test to see the reason:
+<img width="1074" height="706" alt="image" src="https://github.com/user-attachments/assets/0a40d565-7e3e-4dc0-a42a-741c3b46d029" />
