@@ -4,7 +4,7 @@
 
 ### Main Demo `demo-m5-m6`
 
-This project demonstrates a (https://docs.junit.org/current/user-guide/#test-engines[JUnit)[Test Engine] that uses resource files to define tests that can be run with JUnit Platform.
+This project demonstrates a [JUnit Test Engine](https://docs.junit.org/current/user-guide/#test-engines) that uses resource files to define tests that can be run with JUnit Platform.
 The resource files are executed directly by Gradle, there is no need for any test classes to exist.
 
 This project contains a demonstration consumer build in `/demo-m5-m6` and a resource-based `TestEngine` in `/engine`.
@@ -31,11 +31,23 @@ Adding a Gradle `TestListener` to the test task would also allow you to receive 
 The tests are defined in XML files located in `src/test/definitions` of the demo project.
 They are the only files needed to define these tests, and are the only files present in that project.
 
+#### Reporting
+
 After running the tests, you can find the test reports in `demo-m5-m6/build/reports/tests/test/index.html`.
 
 The `index.html` file looks like this:
 <img width="1111" height="676" alt="image" src="https://github.com/user-attachments/assets/cdf0b4ef-4ac6-41a7-af83-e37f3a8297b9" />
 
 If you navigate to individual tests, you can find the output (from the engine) captured per test:
-<img width="1188" height="390" alt="image" src="https://github.com/user-attachments/assets/98dc03ee-b438-4140-aaa1-b65021663c13" />
+<img width="1291" height="378" alt="image" src="https://github.com/user-attachments/assets/7926f02e-a828-47d6-8273-9da07c45d0f0" />
 
+#### Parallelism
+
+This project is setup to run tests in parallel.
+It will distribute tests across 2 TestWorkers.
+Parallelism is currently limited to the test definition directory level - that is, each directory configured in the `testDefinitionDirs` property of the `Test` task is sent to the next available TestWorker in a round-robin fashion.
+This is the same parallelism as is done for class files in class-based testing.
+
+During test execution the engine will query a [Gradle system property](https://docs.gradle.org/current/userguide/java_testing.html#sec:test_execution) to retrieve the index of the TestWorker that ran the test.
+This is then printed, and visible in the per-test output in the generated test report.
+If you examine the output of tests in different directories (for example, `bar` and `baz`) you will see different worker indices.

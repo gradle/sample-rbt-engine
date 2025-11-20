@@ -24,7 +24,10 @@ testing {
 
             targets.all {
                 testTask.configure {
+                    maxParallelForks = 2
+                    forkEvery = 1
                     testDefinitionDirs.from("src/test/definitions")
+                    testDefinitionDirs.from("src/test/more-definitions")
                 }
             }
         }

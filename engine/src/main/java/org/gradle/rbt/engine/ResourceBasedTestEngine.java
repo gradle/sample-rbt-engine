@@ -54,7 +54,8 @@ public final class ResourceBasedTestEngine implements TestEngine {
         executionRequest.getRootTestDescriptor().getChildren().forEach(test -> {
             if (test instanceof ResourceBasedTestDescriptor) {
                 listener.executionStarted(test);
-                LOGGER.info(() -> "Executing test: " + test);
+                String worker = System.getProperty("org.gradle.test.worker");
+                LOGGER.info(() -> "Worker: " + worker + " executing test: " + test);
                 listener.executionFinished(test, TestExecutionResult.successful());
             } else {
                 throw new IllegalStateException("Cannot execute test: " + test + " of type: " + test.getClass().getName());
