@@ -2,6 +2,7 @@ package org.gradle.rbt.descriptor;
 
 import org.junit.platform.engine.UniqueId;
 import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
+import org.junit.platform.engine.support.descriptor.FileSource;
 
 import java.io.File;
 
@@ -10,7 +11,7 @@ public final class ResourceBasedTestDescriptor extends AbstractTestDescriptor {
     private final String name;
 
     public ResourceBasedTestDescriptor(UniqueId parentId, File file, String name) {
-        super(parentId.append("testDefinitionFile", file.getName()).append("testDefinition", name), file.getName() + " : " + name);
+        super(parentId.append("testDefinitionFile", file.getName()).append("testDefinition", name), file.getName() + " : " + name, FileSource.from(file));
         this.file = file;
         this.name = name;
     }
