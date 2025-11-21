@@ -70,7 +70,10 @@ void someLibraryMethodReturnsTrue(TestReporter testReporter) {
 is displayed at the method level in the data and attachments tabs.
 
 The report renders any file with a `image/*` media type as an image and any file with a `video/*` media type as a video. All other files are just linked to. 
-The order of attachments is based on the order they are published.
+The order of attachments is based on the order they are published. 
+
+It should look something like:
+<img src="attachments.png">
 
 NOTE: In this demo, the video is not a real video file and will not play.  
 
