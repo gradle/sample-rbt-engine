@@ -84,3 +84,45 @@ You can view tests:
 
 And navigate to the failing test to see the reason:
 <img width="1074" height="706" alt="image" src="https://github.com/user-attachments/assets/0a40d565-7e3e-4dc0-a42a-741c3b46d029" />
+
+### Dynamic Tests Using a `HierarchicalTestEngine` Demo `demo-m5-m6-hierarchical`
+
+This project uses a more sophisticated engine that implements the `HierarchicalTestEngine` interface to define a simple hierarchy of tests.
+The hierarchy is defined as follows: each file in the test definition directories is a `CONTAINER` that should contain 2 lines, an ISO-8601 date and a number of days.
+
+At execution time, dynamic tests will be created and ran for the number of days specified, starting on the given day.
+They will all succeed.
+
+Run the demo project using `./gradlew :demo-m5-m6-hierarchical:test --rerun` and you'll see these tests dynamically created and executed:
+
+```text
+Gradle Test Executor 6 STANDARD_OUT
+    16:03:19.121 [Test worker] INFO org.gradle.rbt.engine.HierarchicalResourceBasedTestEngine -- Discovering tests with engine: [engine:rbt-hierarchical-engine] using selectors:
+        DirectorySelector [path = '/Users/ttresansky/Projects/sample-rbt-engine/demo-m5-m6-hierarchical/src/test/definitions']
+    16:03:19.128 [Test worker] INFO org.gradle.rbt.engine.HierarchicalResourceBasedSelectorResolver -- Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m5-m6-hierarchical/src/test/definitions/date-tests.rbt
+    16:03:19.129 [Test worker] INFO org.gradle.rbt.engine.HierarchicalResourceBasedSelectorResolver -- Found test definitions in: /Users/ttresansky/Projects/sample-rbt-engine/demo-m5-m6-hierarchical/src/test/definitions/more-date-tests.rbt
+
+date-tests.rbt > 2025-11-01 STANDARD_OUT
+    16:03:19.164 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: date-tests.rbt, for date: 2025-11-01
+
+date-tests.rbt > 2025-11-02 STANDARD_OUT
+    16:03:19.166 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: date-tests.rbt, for date: 2025-11-02
+
+date-tests.rbt > 2025-11-03 STANDARD_OUT
+    16:03:19.167 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: date-tests.rbt, for date: 2025-11-03
+
+date-tests.rbt > 2025-11-04 STANDARD_OUT
+    16:03:19.167 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: date-tests.rbt, for date: 2025-11-04
+
+date-tests.rbt > 2025-11-05 STANDARD_OUT
+    16:03:19.167 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: date-tests.rbt, for date: 2025-11-05
+
+more-date-tests.rbt > 2025-11-18 STANDARD_OUT
+    16:03:19.168 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: more-date-tests.rbt, for date: 2025-11-18
+
+more-date-tests.rbt > 2025-11-19 STANDARD_OUT
+    16:03:19.168 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: more-date-tests.rbt, for date: 2025-11-19
+
+more-date-tests.rbt > 2025-11-20 STANDARD_OUT
+    16:03:19.168 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: more-date-tests.rbt, for date: 2025-11-20
+```
