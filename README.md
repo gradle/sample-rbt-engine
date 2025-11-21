@@ -126,3 +126,9 @@ more-date-tests.rbt > 2025-11-19 STANDARD_OUT
 more-date-tests.rbt > 2025-11-20 STANDARD_OUT
     16:03:19.168 [Test worker] INFO org.gradle.rbt.descriptor.DynamicDayTestDescriptor -- Executing dynamic test in file: more-date-tests.rbt, for date: 2025-11-20
 ```
+
+The test report will show the files as parents:
+<img width="1093" height="619" alt="image" src="https://github.com/user-attachments/assets/d6351409-0e21-447c-be1d-8fb0f5ac32ea" />
+
+And the dynamic tests as children in a hierarchy:
+<img width="1109" height="661" alt="image" src="https://github.com/user-attachments/assets/e1a10f8b-f8b8-45ed-9137-2d7ce86a8ba9" />
