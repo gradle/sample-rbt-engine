@@ -18,22 +18,23 @@ public class Main {
         try (ProjectConnection connection = connector.connect()) {
             // Configure the launcher to listen and print test metadata events
             BuildLauncher launcher = connection.newBuild();
+            System.out.println();
             launcher.addProgressListener(progressEvent -> {
                 if (progressEvent instanceof TestMetadataEvent testMetadataEvent) {
-                    System.out.println("Received test metadata event: " + testMetadataEvent.getDisplayName());
-                    if (!testMetadataEvent.getValues().isEmpty()) {
-                        testMetadataEvent.getValues().forEach((key, value) -> System.out.println("  " + key + " = " + value));
+                    System.out.println("Received test metadata event for " + testMetadataEvent.getDescriptor().getParent().getDisplayName());
+                    if (testMetadataEvent instanceof TestKeyValueMetadataEvent keyValues) {
+                        System.out.printf("Key-values (size: %d):%n", keyValues.getValues().size());
+                        keyValues.getValues().forEach((key, value) -> System.out.println("\t" + key + " = " + value));
+                    } else if (testMetadataEvent instanceof TestFileAttachmentMetadataEvent fileAttachment) {
+                        System.out.printf("File attachment (%s):%n\t%s%n", fileAttachment.getMediaType(), fileAttachment.getFile());
                     } else {
-                        FileAttachment fileAttachment = testMetadataEvent.get(FileAttachment.class);
-                        if (fileAttachment!=null) {
-                            System.out.printf("File attachment (%s):%n\t%s%n", fileAttachment.getMediaType(), fileAttachment.getPath());
-                        } else {
-                            System.out.println("Unknown type of data");
-                        }
+                        System.out.println("Unrecognized metadata event type: " + testMetadataEvent);
                     }
-
+                    System.out.println();
                 }
             }, Set.of(OperationType.TEST, OperationType.TEST_METADATA));
+
+            System.out.println();
 
             // Run the demo-m2-3 build, rerunning tests to ensure they aren't found to be up-to-date
             launcher.forTasks("test", "--rerun");
