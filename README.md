@@ -88,12 +88,13 @@ And navigate to the failing test to see the reason:
 ### Dynamic Tests Using a `HierarchicalTestEngine` Demo `demo-m5-m6-hierarchical`
 
 This project uses a more sophisticated engine that implements the `HierarchicalTestEngine` interface to define a simple hierarchy of tests.
-The hierarchy is defined as follows: each file in the test definition directories is a `CONTAINER` that should contain 2 lines, an ISO-8601 date and a number of days.
+The hierarchy is defined as follows: each file in the test definition directories creates a `TestDescriptor` that is a `CONTAINER`.
+Each file should contain 2 lines, an ISO-8601 date, and a number of days.
 
 At execution time, dynamic tests will be created and ran for the number of days specified, starting on the given day.
 They will all succeed.
 
-Run the demo project using `./gradlew :demo-m5-m6-hierarchical:test --rerun` and you'll see these tests dynamically created and executed:
+Run the demo project using `./gradlew :demo-m5-m6-hierarchical:test --rerun --info` and you'll see these tests dynamically created and executed:
 
 ```text
 Gradle Test Executor 6 STANDARD_OUT
