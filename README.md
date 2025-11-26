@@ -14,8 +14,8 @@ Filtering is only possible at the test definition file level, not at the individ
 A leading `/` is optional.
 Unix-style path separators (`/`) are used regardless of the host OS.
 
-The project defines a number of different test suites (and associated test tasks) that demonstrate different ways to select and filter tests defined in the resource files.
-See the `build.gradle.kts` file in the `demo-m8` project for details on how each filter configured.
+The project defines a number of different test suite targets (which will have associated test tasks) that demonstrate different ways to select and filter tests defined in the resource files.
+See the `build.gradle.kts` file in the `demo-m8` project for details on how each filter is configured.
 
 Run the demo project using `./gradlew :demo-m8:<TASK> --rerun --info`.
 You can replace `<TASK>` with any of the following:
@@ -28,13 +28,13 @@ You can replace `<TASK>` with any of the following:
 | `includeOnlyNumericTestsNotInASubDir` | Includes only the tests named `tests-<NUMBER>.xml` not with any ancestor directory containing `sub` in its name |
 
 Info about which tests are executed will be visible in the console output, and in the generated HTML reports.
-
+ 
 ### Dynamic Tests Using a `HierarchicalTestEngine` Demo `demo-m8-hierarchical`
 
 This demo uses the same Test Engine as used in the M5 and M6 hierarchical testing demo - with the same minor adjustment to properly mark the discovered non-class-based tests as having `FileSource`.
 
-The project defines a number of different test suites (and associated test tasks) that demonstrate different ways to select and filter tests defined in the resource files.
-See the `build.gradle.kts` file in the `demo-m8-hierarchical` project for details on how each filter configured.
+The project defines a number of different test targets that demonstrate different ways to select and filter tests defined in the resource files.
+See the `build.gradle.kts` file in the `demo-m8-hierarchical` project for details on how each filter is configured.
 
 Run the demo project using `./gradlew :demo-m8-hierarchical:<TASK> --rerun --info`.
 You can replace `<TASK>` with any of the following:
@@ -45,3 +45,11 @@ You can replace `<TASK>` with any of the following:
 | `excludeMoreDateTests`                                 | Excludes every test in `/src/test/definitions/more-date-tests.rbt`                                                                       |
 | `includeOnlyMoreDateTests`                             | Includes only the tests in `/src/test/definitions/more-date-tests.rbt`                                                                   |
 | `includeOnlyDateTestsButExcludeMoreDateTestsAndSubDir` | Includes only the tests in files with names containing `date-tests` not in `more-definitions` or with any ancestor directory named `sub` |
+
+### Filtering Using Dynamic Patterns
+
+You can also filter tests dynamically each Gradle invocation by using the `Test` task's `--tests` property.
+
+For example, to run only tests defined in files under `/more-definitions`, you can run:
+
+```./gradlew :demo-m8:test --rerun --info --tests ".*/more-definitions/.*"```

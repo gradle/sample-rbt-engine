@@ -15,59 +15,35 @@ java {
 
 testing {
     suites {
-        configureEach {
-            this as JvmTestSuite
+        named("test", JvmTestSuite::class) {
             useJUnitJupiter()
 
             dependencies {
                 implementation(project(":engine"))
             }
-        }
 
-        named("test", JvmTestSuite::class) {
-            targets.all {
-                testTask.configure {
-                    testDefinitionDirs.from("src/test/definitions")
-                    testDefinitionDirs.from("src/test/more-definitions")
-                }
-            }
-        }
-
-        create("excludeMoreDefs", JvmTestSuite::class) {
-            targets.all {
-                testTask.configure {
-                    testDefinitionDirs.from("src/test/definitions")
-                    testDefinitionDirs.from("src/test/more-definitions")
-
+            targets {
+                create("excludeMoreDefs").testTask.configure {
                     filter {
                         excludeTestsMatching(".*/more-definitions/.*")
                     }
                 }
-            }
-        }
-
-        create("includeOnlyMoreDefs", JvmTestSuite::class) {
-            targets.all {
-                testTask.configure {
-                    testDefinitionDirs.from("src/test/definitions")
-                    testDefinitionDirs.from("src/test/more-definitions")
-
+                create("includeOnlyMoreDefs").testTask.configure {
                     filter {
                         includeTestsMatching(".*/more-definitions/.*")
                     }
                 }
-            }
-        }
-
-        create("includeOnlyNumericTestsNotInASubDir", JvmTestSuite::class) {
-            targets.all {
-                testTask.configure {
-                    testDefinitionDirs.from("src/test/definitions")
-                    testDefinitionDirs.from("src/test/more-definitions")
-
+                create("includeOnlyNumericTestsNotInASubDir").testTask.configure {
                     filter {
                         includeTestsMatching(".*/tests-\\d.xml")
                         excludeTestsMatching(".*/sub.*/.*")
+                    }
+                }
+
+                all {
+                    testTask.configure {
+                        testDefinitionDirs.from("src/test/definitions")
+                        testDefinitionDirs.from("src/test/more-definitions")
                     }
                 }
             }
